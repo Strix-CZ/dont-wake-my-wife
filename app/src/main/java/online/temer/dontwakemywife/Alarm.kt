@@ -25,6 +25,8 @@ class Alarm : AppCompatActivity() {
 
         setContentView(R.layout.activity_alarm)
 
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         findViewById<Button>(R.id.buttonDismiss).setOnClickListener {
             finish()
         }
@@ -34,16 +36,13 @@ class Alarm : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun vibrate() {
-
-        val third = VibrationEffect.DEFAULT_AMPLITUDE / 3
-        val twoThirds = 2 * VibrationEffect.DEFAULT_AMPLITUDE / 3
         val normal = VibrationEffect.DEFAULT_AMPLITUDE
         val full = 255
 
         val pattern = Pattern()
-            .add(Pattern().burst(100, 200, third, 2).wait(5000).repeat(2))
-            .add(Pattern().burst(100, 200, twoThirds, 2).wait(5000).repeat(2))
-            .add(Pattern().burst(100, 200, normal, 2).wait(5000).repeat(2))
+            .add(Pattern().burst(140, 200, normal, 2).wait(8000).repeat(2))
+            .add(Pattern().burst(160, 200, normal, 2).wait(5000).repeat(2))
+            .add(Pattern().burst(180, 200, normal, 2).wait(5000).repeat(2))
             .add(Pattern().burst(200, 200, normal, 2).wait(5000).repeat(2))
             .add(Pattern().burst(200, 200, normal, 4).wait(5000).repeat(2))
             .add(Pattern().burst(200, 200, full, 4).wait(2500).repeat(10))
@@ -76,7 +75,7 @@ class Alarm : AppCompatActivity() {
         }
 
         fun burst(timeOn: Long, timeOff: Long, amplitude: Int, numberOfPulses: Int) : Pattern {
-            for (i in 0..numberOfPulses) {
+            for (i in 0 until numberOfPulses) {
                 if (i > 0) {
                     wait(timeOff)
                 }
@@ -99,7 +98,7 @@ class Alarm : AppCompatActivity() {
             val oldTimings = ArrayList<Long>(timings)
             val oldAmplitudes =  ArrayList<Int>(amplitudes)
 
-            for (i in 0..times) {
+            for (i in 0 until times) {
                 timings.addAll(oldTimings)
                 amplitudes.addAll(oldAmplitudes)
             }
