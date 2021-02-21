@@ -1,37 +1,38 @@
 package online.temer.dontwakemywife
 
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.app.Activity
+import android.os.*
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import androidx.annotation.RequiresApi
 
-class Alarm : AppCompatActivity() {
+class Alarm : Activity() {
 
-    var vibrator : Vibrator? = null
+    var vibrator: Vibrator? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val flags = WindowManager.LayoutParams.FLAG_FULLSCREEN
+            .or(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD)
+            .or(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
+            .or(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON)
+            .or(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        window.setFlags(flags, flags)
+
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        getWindow().setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         setContentView(R.layout.activity_alarm)
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         findViewById<Button>(R.id.buttonDismiss).setOnClickListener {
             finish()
         }
 
-        vibrate()
+        Handler(Looper.getMainLooper()).postDelayed({
+            vibrate()
+        }, 1000)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,7 +48,8 @@ class Alarm : AppCompatActivity() {
             .add(Pattern().burst(200, 200, normal, 4).wait(5000).repeat(2))
             .add(Pattern().burst(200, 200, full, 4).wait(2500).repeat(10))
 
-        val shortPulse = VibrationEffect.createWaveform(pattern.getTimings(), pattern.getAmplitudes(), 0)
+        val shortPulse =
+            VibrationEffect.createWaveform(pattern.getTimings(), pattern.getAmplitudes(), 0)
         vibrator = getSystemService<Vibrator>(Vibrator::class.java)
         vibrator?.vibrate(shortPulse)
     }
@@ -64,17 +66,17 @@ class Alarm : AppCompatActivity() {
     }
 
     class Pattern {
-        val timings : MutableList<Long> = arrayListOf()
-        val amplitudes : MutableList<Int> = arrayListOf()
+        val timings: MutableList<Long> = arrayListOf()
+        val amplitudes: MutableList<Int> = arrayListOf()
 
-        fun add(theOther : Pattern) : Pattern {
+        fun add(theOther: Pattern): Pattern {
             timings.addAll(theOther.timings)
             amplitudes.addAll(theOther.amplitudes)
 
             return this
         }
 
-        fun burst(timeOn: Long, timeOff: Long, amplitude: Int, numberOfPulses: Int) : Pattern {
+        fun burst(timeOn: Long, timeOff: Long, amplitude: Int, numberOfPulses: Int): Pattern {
             for (i in 0 until numberOfPulses) {
                 if (i > 0) {
                     wait(timeOff)
@@ -87,16 +89,16 @@ class Alarm : AppCompatActivity() {
             return this
         }
 
-        fun wait(timeOff: Long) : Pattern {
+        fun wait(timeOff: Long): Pattern {
             timings.add(timeOff)
             amplitudes.add(0)
 
             return this
         }
 
-        fun repeat(times: Int) : Pattern {
+        fun repeat(times: Int): Pattern {
             val oldTimings = ArrayList<Long>(timings)
-            val oldAmplitudes =  ArrayList<Int>(amplitudes)
+            val oldAmplitudes = ArrayList<Int>(amplitudes)
 
             for (i in 0 until times) {
                 timings.addAll(oldTimings)
