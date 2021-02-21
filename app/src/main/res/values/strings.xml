@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Don\'t wake my wife</string>
+    <string name="test_alarm">Test alarm</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="time_to_wake_up">Time to wake up!</string>
 </resources>
