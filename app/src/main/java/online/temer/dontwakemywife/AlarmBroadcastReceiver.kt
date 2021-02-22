@@ -3,10 +3,13 @@ package online.temer.dontwakemywife
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.PowerManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 
 class AlarmBroadcastReceiver : BroadcastReceiver() {
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onReceive(context: Context?, intent: Intent?) {
         val powerManager = context!!.getSystemService(Context.POWER_SERVICE) as PowerManager
 
@@ -23,6 +26,8 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
         val intent = Intent(context, Alarm::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
+
+        scheduleAlarm(context, 5, 0)
 
         //wakeLock.release()
     }
