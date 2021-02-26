@@ -4,17 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/buttonTestAlarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="@string/test_alarm"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonBedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/labelBedTime"
+        app:layout_constraintStart_toStartOf="@+id/labelBedTime"
+        app:layout_constraintTop_toBottomOf="@+id/labelBedTime"
+        tools:text="21:00" />
+
+    <Button
+        android:id="@+id/buttonWakeUpTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/labelWakeUpTime"
+        app:layout_constraintStart_toStartOf="@+id/labelWakeUpTime"
+        app:layout_constraintTop_toBottomOf="@+id/labelWakeUpTime"
+        tools:text="5:00" />
+
+    <TextView
+        android:id="@+id/labelBedTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/bed_time"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/labelWakeUpTime"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    
+
+    <TextView
+        android:id="@+id/labelWakeUpTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wake_up"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/labelBedTime"
+        app:layout_constraintTop_toTopOf="@+id/labelBedTime" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
